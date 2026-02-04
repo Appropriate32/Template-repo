@@ -1,12 +1,18 @@
 import js from "@eslint/js";
 import globals from "globals";
-import { defineConfig } from "eslint/config";
 
-export default defineConfig([
+export default [
+  // 1. Put the recommended config first (this replaces "extends")
+  js.configs.recommended,
+
+  // 2. Your custom overrides
   {
     files: ["**/*.{js,mjs,cjs}"],
-    plugins: { js },
-    extends: ["js/recommended"],
-    languageOptions: { globals: globals.browser },
+    languageOptions: {
+      globals: {
+        ...globals.browser, // Spread syntax to merge browser globals
+        ...globals.jest, // Spread syntax to merge jest globals
+      },
+    },
   },
-]);
+];
